@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des Ventes{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Historique des Ventes</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Commande</th>
+                    <th>Utilisateur</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.user ? order.user.username : 'N/A' }}</td>
+                        <td>{{ order.date|date('d/m/Y H:i') }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">Aucune vente trouvée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

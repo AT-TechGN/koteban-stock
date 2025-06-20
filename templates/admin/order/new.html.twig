@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Commande{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Nouvelle Commande</h1>
+        {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+            {{ form_row(form.user, {'attr': {'class': 'form-select'}}) }}
+            {{ form_row(form.date, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.status, {'attr': {'class': 'form-select'}}) }}
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Créer</button>
+                <a href="{{ path('app_admin_order_index') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

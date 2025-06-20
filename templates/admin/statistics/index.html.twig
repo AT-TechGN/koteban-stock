@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Statistiques</h1>
+        <h3>Produits les plus vendus</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantité vendue</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in topProducts %}
+                    <tr>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.total }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="2">Aucun produit vendu.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Valeur du stock</h3>
+        <p>{{ stockValue }} €</p>
+    </div>
+{% endblock %}

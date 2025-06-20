@@ -1,0 +1,42 @@
+parameters:
+    app.upload_directory: '%kernel.project_dir%/public/uploads/images'
+    app.low_stock_threshold: 10
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # Services personnalisés
+    App\Service\ImageUploader:
+        arguments:
+            $targetDirectory: '%app.upload_directory%'
+
+    App\Service\StockManager:
+        arguments:
+            $lowStockThreshold: '%app.low_stock_threshold%'
+
+    App\Service\StatisticsCalculator:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+
+    App\Service\InvoiceGenerator:
+        arguments:
+            $dompdf: '@dompdf'
+
+    App\Security\LoginSuccessHandler:
+        arguments:
+            $router: '@router'
+
+    # Dompdf service
+    dompdf:
+        class: Dompdf\Dompdf
+        calls:
+            - [setOptions, [{ isHtml5ParserEnabled: true, isRemoteEnabled: true }]]

@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Fournisseur{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Modifier Fournisseur</h1>
+        {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+            {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.phone, {'attr': {'class': 'form-control'}}) }}
+            {{ form_row(form.address, {'attr': {'class': 'form-control'}}) }}
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="{{ path('app_admin_supplier_index') }}" class="btn btn-secondary">Annuler</a>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

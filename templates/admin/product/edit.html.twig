@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Produit - Koteban{% endblock %}
+
+{% block body %}
+    <!-- Inclure le header -->
+
+    <div class="d2c_wrapper">
+        <!-- Bouton pour toggler la sidebar en mode mobile -->
+        <button class="d2c_offcanvas_toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Inclure la sidebar -->
+        {% include 'partials/sidebar.html.twig' %}
+
+        <!-- Main Content -->
+        <div class="d2c_main p-4 ps-lg-3">
+            <!-- Title -->
+            <h4 class="mb-4 text-capitalize">Modifier produit</h4>
+
+            <!-- Form Card -->
+            <div class="card d2c_projects_datatable">
+                <div class="card-header">
+                    <h6>Modifier le produit</h6>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+                        <div class="col-md-6">
+                            {{ form_label(form.name, 'Nom du produit', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom du produit'}}) }}
+                            {{ form_errors(form.name, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.category, 'Catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.category, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.priceBuy, 'Prix d\'achat (FG)', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.priceBuy, {'attr': {'class': 'form-control', 'placeholder': '0,00'}}) }}
+                            {{ form_errors(form.priceBuy, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.priceSell, 'Prix de vente (FG)', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.priceSell, {'attr': {'class': 'form-control', 'placeholder': '0,00'}}) }}
+                            {{ form_errors(form.priceSell, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 5, 'placeholder': 'Décrivez le produit'}}) }}
+                            {{ form_errors(form.description, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_label(form.image, 'Image du produit', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.image, {'attr': {'class': 'form-control', 'accept': 'image/*'}}) }}
+                            {{ form_errors(form.image, {'attr': {'class': 'text-danger'}}) }}
+                            {% if product.image %}
+                                <div class="mt-2">
+                                    <p>Image actuelle :</p>
+                                    <img src="{{ asset('uploads/Products/' ~ product.image) }}" alt="{{ product.name|default('Produit') }}" style="max-width: 200px; max-height: 200px; object-fit: contain;">
+                                </div>
+                            {% endif %}
+                            <div id="image-preview" class="mt-2" style="display: none;">
+                                <img id="preview-image" src="#" alt="Prévisualisation" style="max-width: 200px; max-height: 200px; object-fit: contain;">
+                            </div>
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Enregistrer
+                            </button>
+                            <a href="{{ path('app_admin_product_index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Annuler
+                            </a>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclure le footer -->
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            // Prévisualisation de l'image
+            $('#{{ form.image.vars.id }}').on('change', function(event) {
+                const file = event.target.files[0];
+                const preview = $('#preview-image');
+                const previewContainer = $('#image-preview');
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.attr('src', e.target.result);
+                        previewContainer.show();
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    previewContainer.hide();
+                }
+            });
+        });
+    </script>
+{% endblock %}

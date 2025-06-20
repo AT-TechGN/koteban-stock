@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Catégorie - Koteban{% endblock %}
+
+{% block body %}
+    <!-- Inclure le header -->
+
+    <div class="d2c_wrapper">
+        <!-- Bouton pour toggler la sidebar en mode mobile -->
+        <button class="d2c_offcanvas_toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Inclure la sidebar -->
+        {% include 'partials/sidebar.html.twig' %}
+
+        <!-- Main Content -->
+        <div class="d2c_main p-4 ps-lg-3">
+            <!-- Title -->
+            <h4 class="mb-4 text-capitalize">Modifier catégorie</h4>
+
+            <!-- Form Card -->
+            <div class="card d2c_projects_datatable">
+                <div class="card-header">
+                    <h6>Modifier la catégorie</h6>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+                        <div class="col-md-6">
+                            {{ form_label(form.name, 'Nom de la catégorie', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom de la catégorie'}}) }}
+                            {{ form_errors(form.name, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.parent, 'Catégorie parent', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.parent, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.parent, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Enregistrer
+                            </button>
+                            <a href="{{ path('app_admin_category_index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Annuler
+                            </a>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclure le footer -->
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}

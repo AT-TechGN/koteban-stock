@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Variantes - Koteban{% endblock %}
+
+{% block body %}
+    <!-- Inclure le header -->
+
+    <div class="d2c_wrapper">
+        <!-- Bouton pour toggler la sidebar en mode mobile -->
+        <button class="d2c_offcanvas_toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Inclure la sidebar -->
+        {% include 'partials/sidebar.html.twig' %}
+
+        <!-- Main Content -->
+        <div class="d2c_main p-4 ps-lg-3">
+            <!-- Title -->
+            <h4 class="mb-4 text-capitalize">Variantes</h4>
+
+            <!-- Variant List -->
+            <div class="card d2c_projects_datatable">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h6>Liste des variantes</h6>
+                    <a href="{{ path('app_admin_variant_new') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus"></i> Ajouter une variante
+                    </a>
+                </div>
+                <div class="card-body">
+                    <!-- Search Form -->
+                    <form method="get" action="{{ path('app_admin_variant_index') }}" class="mb-4">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" name="search" class="form-control" placeholder="Rechercher une variante..." value="{{ app.request.query.get('search')|default('') }}">
+                            <button type="submit" class="btn btn-outline-primary">Rechercher</button>
+                            <a href="{{ path('app_admin_variant_index') }}" class="btn btn-outline-secondary">Réinitialiser</a>
+                        </div>
+                    </form>
+
+                    <!-- Variant Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover" id="d2c_advanced_table">
+                            <thead>
+                                <tr>
+                                    <th>Produit</th>
+                                    <th>Taille</th>
+                                    <th>Couleur</th>
+                                    <th>Quantité en stock</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if variants is defined and variants|length > 0 %}
+                                    {% for variant in variants %}
+                                        <tr>
+                                            <td>{{ variant.product ? variant.product.name|default('N/A') : 'N/A' }}</td>
+                                            <td>{{ variant.size|default('N/A') }}</td>
+                                            <td>{{ variant.color|default('N/A') }}</td>
+                                            <td>{{ variant.stockQuantity|default(0) }}</td>
+                                            <td>
+                                                <a href="{{ path('app_admin_variant_edit', {'id': variant.id}) }}" class="btn btn-sm btn-warning me-1" title="Modifier">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ variant.id }}" title="Supprimer">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                                <!-- Modal de confirmation -->
+                                                <div class="modal fade" id="deleteModal{{ variant.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ variant.id }}" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteModalLabel{{ variant.id }}">Confirmer la suppression</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                Êtes-vous sûr de vouloir supprimer la variante pour "{{ variant.product ? variant.product.name|default('N/A') : 'N/A' }}" ?
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                                <form method="post" action="{{ path('app_admin_variant_delete', {'id': variant.id}) }}" style="display:inline;">
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ variant.id) }}">
+                                                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5" class="text-center">Aucune variante trouvée</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclure le footer -->
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}

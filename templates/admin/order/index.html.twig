@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Commandes{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Liste des Commandes</h1>
+        <a href="{{ path('app_admin_order_new') }}" class="btn btn-primary mb-3">Ajouter une commande</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Utilisateur</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td>{{ order.user ? order.user.username : 'N/A' }}</td>
+                        <td>{{ order.date|date('d/m/Y H:i') }}</td>
+                        <td>{{ order.status }}</td>
+                        <td>
+                            <a href="{{ path('app_admin_order_edit', {'id': order.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucune commande trouvée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

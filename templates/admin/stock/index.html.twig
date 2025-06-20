@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion du Stock{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Gestion du Stock</h1>
+        <h3>Alertes de stock faible</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Taille</th>
+                    <th>Couleur</th>
+                    <th>Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for variant in lowStockVariants %}
+                    <tr class="table-danger">
+                        <td>{{ variant.product.name }}</td>
+                        <td>{{ variant.size ?: 'N/A' }}</td>
+                        <td>{{ variant.color ?: 'N/A' }}</td>
+                        <td>{{ variant.stockQuantity }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun stock faible détecté.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h3>Tous les stocks</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Taille</th>
+                    <th>Couleur</th>
+                    <th>Quantité</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for variant in variants %}
+                    <tr>
+                        <td>{{ variant.product.name }}</td>
+                        <td>{{ variant.size ?: 'N/A' }}</td>
+                        <td>{{ variant.color ?: 'N/A' }}</td>
+                        <td>{{ variant.stockQuantity }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun stock trouvé.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Variante - Koteban{% endblock %}
+
+{% block body %}
+    <!-- Inclure le header -->
+    {% include 'partials/header.html.twig' %}
+
+    <div class="d2c_wrapper">
+        <!-- Bouton pour toggler la sidebar en mode mobile -->
+        <button class="d2c_offcanvas_toggle" type="button" data-bs-toggle="offcanvas" data-bs-target="#d2c_sidebar" aria-controls="d2c_sidebar">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Inclure la sidebar -->
+        {% include 'partials/sidebar.html.twig' %}
+
+        <!-- Main Content -->
+        <div class="d2c_main p-4 ps-lg-3">
+            <!-- Title -->
+            <h4 class="mb-4 text-capitalize">Nouvelle variante</h4>
+
+            <!-- Form Card -->
+            <div class="card d2c_projects_datatable">
+                <div class="card-header">
+                    <h6>Ajouter une nouvelle variante</h6>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'row g-3'}}) }}
+                        <div class="col-md-6">
+                            {{ form_label(form.product, 'Produit', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.product, {'attr': {'class': 'form-select'}}) }}
+                            {{ form_errors(form.product, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.size, 'Taille', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.size, {'attr': {'class': 'form-control', 'placeholder': 'Entrez la taille (ex. S, M, L)'}}) }}
+                            {{ form_errors(form.size, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.color, 'Couleur', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.color, {'attr': {'class': 'form-control', 'placeholder': 'Entrez la couleur'}}) }}
+                            {{ form_errors(form.color, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.stockQuantity, 'Quantité en stock', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.stockQuantity, {'attr': {'class': 'form-control', 'placeholder': 'Entrez la quantité'}}) }}
+                            {{ form_errors(form.stockQuantity, {'attr': {'class': 'text-danger'}}) }}
+                        </div>
+                        <div class="col-12 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Créer
+                            </button>
+                            <a href="{{ path('app_admin_variant_index') }}" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Annuler
+                            </a>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inclure le footer -->
+    {% include 'partials/footer.html.twig' %}
+{% endblock %}
